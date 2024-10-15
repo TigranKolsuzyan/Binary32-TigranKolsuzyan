@@ -1,0 +1,27 @@
+# List of STH Environment variables
+#
+#   DRIVER:        e.g., java_subroutine
+#   OPTIONS:       options to the Driver option
+#
+#   ENTRY:         entry point to test
+#   ARGS:          command line arges to "ENTRY"
+#   INPUT:         stdin passed to "ENTRY"
+#   OUTPUT:        the expected output (stdout) from "ENTRY"
+
+#   EXIT_STATUS:  the expected exit status 
+
+[default]
+DRIVER=java_subroutine
+OPTIONS="-R null"
+EXIT_STATUS=0
+
+[global]
+ENTRY=
+
+[case]
+ARGS=
+OUTPUT=
+
+[case]
+ARGS=
+OUTPUT=
