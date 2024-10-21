@@ -12,16 +12,12 @@
 
 [default]
 DRIVER=java_subroutine
-OPTIONS="-R null"
-EXIT_STATUS=0
+OPTIONS="-R binary32"
+EXIT_STATUS=IGNORE
 
 [global]
-ENTRY=
+ENTRY=binary32
 
 [case]
-ARGS=
-OUTPUT=
-
-[case]
-ARGS=
-OUTPUT=
+ARGS="'-' 0XFFFFFF '+' 128"
+OUTPUT="| 1 | 11111111 | 11111111111111111111111 |"
