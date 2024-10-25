@@ -56,9 +56,10 @@ public static int binary32(int sign, int coefficient, int expon_sign, int expone
             //        - the whole number is now removed, and
             //        - the mantissa (which is a fractional value) is left-justified
             position = pos_msb(coefficient);
+            coefficient_shift = 23 - position;
   
 
-            encoded_mantissa = 0;
+            encoded_mantissa = (coefficient << coefficient_shift);
 
             /////////////////////////////////////////////////////////
             // 2. Shift the pieces into place: sign, exponent, mantissa
