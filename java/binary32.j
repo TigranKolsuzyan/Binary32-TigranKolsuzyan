@@ -31,17 +31,22 @@ public static int binary32(int sign, int coefficient, int expon_sign, int expone
             //     - Based upon the sign, encode the sign as a binary value
             if (sign == negative_sign) 
             {
-              sign = 1;
+              encode_sign = 1;
             }
             else
             {
-              sign = 0;
+              encoded_sign = 0;
             }
             // 1.2 Exponent Encoding: (encoded_expon = )
             //     - Make the exponent a signed quantity
             //     - Add the bias
-            if (expon_sign == negative_sign) {
- 
+            if (expon_sign == negative_sign) 
+            {
+              encoded_exponent = (exponent * -1) + bias;
+            }
+            else
+            {
+              encoded_exponent = exponent + bias;
             }
             
             // 1.3  Mantissa Encoding: (encoded_mantissa = )
