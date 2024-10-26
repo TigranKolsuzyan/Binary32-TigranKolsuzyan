@@ -31,7 +31,7 @@ public static int binary32(int sign, int coefficient, int expon_sign, int expone
             //     - Based upon the sign, encode the sign as a binary value
             if (sign == negative_sign) 
             {
-              encode_sign = 1;
+              encoded_sign = 1;
             }
             else
             {
