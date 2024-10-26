@@ -63,13 +63,15 @@ public static int binary32(int sign, int coefficient, int expon_sign, int expone
 
             /////////////////////////////////////////////////////////
             // 2. Shift the pieces into place: sign, exponent, mantissa
-            encoded_sign     = 0;
-            encoded_exponent = 0;
-            encoded_mantissa = 0;
+            encoded_sign     = encoded_sign << 31;
+            encoded_exponent = encoded_exponent << 23;
+            encoded_mantissa = encoded_mantissa;
             
             /////////////////////////////////////////////////////////
             // 3. Merge the pieces together
-            encoding = 0;
+            encoding |= encoded_sign;
+            encoding |= encoded_exponent;
+            encoding |= encoded_mantissa;
 
             return encoding;
   }
