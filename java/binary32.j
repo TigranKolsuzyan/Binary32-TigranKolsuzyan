@@ -4,19 +4,17 @@ public static int binary32(int sign, int coefficient, int expon_sign, int expone
             // $a2 : expon_sign
             // $a3 : exponent
             int encoding; // : return value
-
             int encoded_sign;
             int encoded_mantissa;
             int encoded_exponent;
             int position;          // the location of the msb of the coefficient
             int coefficient_shift;
             int negative_sign;
-
             final int bias           = 127;  // As defined by the spec
             final int sign_shift     =  31;  //   << (8 + 23 )
             final int expon_shift    =  23;  //   << (23)
             final int mantissa_shift =   9;  //  >>> (1 + 8)  // the mantissa is left-justified
-            final int $zero          =   0;  
+            final int $zero          =   0;              
 
             /////////////////////////////////////////////////////////
             // BEGIN CODE of INTEREST
@@ -55,25 +53,24 @@ public static int binary32(int sign, int coefficient, int expon_sign, int expone
             //      - Shift the coefficient to the left to obtain the mantissa
             //        - the whole number is now removed, and
             //        - the mantissa (which is a fractional value) is left-justified
+            
             position = pos_msb(coefficient);
-            coefficient_shift = 23 - position;
   
-
+            encoded_mantissa = 0;
+            coefficient_shift = 33 - position;
             encoded_mantissa = (coefficient << coefficient_shift);
+            
 
             /////////////////////////////////////////////////////////
             // 2. Shift the pieces into place: sign, exponent, mantissa
-            encoded_sign     = encoded_sign << 31;
-            encoded_exponent = encoded_exponent << 23;
-            encoded_mantissa = encoded_mantissa;
+            encoded_sign     = encoded_sign << sign_shift;
+            encoded_exponent = encoded_exponent << expon_shift;
+            encoded_mantissa = encoded_mantissa >>> mantissa_shift;
             
             /////////////////////////////////////////////////////////
             // 3. Merge the pieces together
-            encoding = 0; 
-            encoding |= encoded_sign;
-            encoding |= encoded_exponent;
-            encoding |= encoded_mantissa;
-
+            encoding = encoding = encoded_sign | encoded_exponent | encoded_mantissa; 
+           
             return encoding;
   }
 
