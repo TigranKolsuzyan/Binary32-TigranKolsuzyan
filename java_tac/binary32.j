@@ -27,25 +27,26 @@ public static int binary32(int sign, int coefficient, int expon_sign, int expone
                                           
                                                       // 1.1 Sign Encoding: (encoded_sign = )
                                                       //     - Based upon the sign, encode the sign as a binary value
-                                                      // if (sign == negative_sign) 
-                                                      // {
-                                                      //   encoded_sign = 1;
-                                                      // }
-                                                      // else
-                                                      // {
-                                                      //   encoded_sign = 0;
-                                                      // }
+    if (sign == negative_sign) 
+    {
+      encoded_sign = 1;
+    }
+    else
+    {
+      encoded_sign = 0;
+    }
                                                       // 1.2 Exponent Encoding: (encoded_expon = )
                                                       //     - Make the exponent a signed quantity
                                                       //     - Add the bias
-                                                      // if (expon_sign == negative_sign) 
-                                                      // {
-                                                      //   encoded_exponent = (exponent * -1) + bias;
-                                                      // }
-                                                      // else
-                                                      // {
-                                                      //   encoded_exponent = exponent + bias;
-                                                      // }
+    if (expon_sign == negative_sign) 
+    {
+      exponent = exponent * -1;
+      encoded_exponent = exponent + bias;
+    }
+    else
+    {
+      encoded_exponent = exponent + bias;
+    }
                                                       
                                                       // 1.3  Mantissa Encoding: (encoded_mantissa = )
                                                       //      - Determine the number of bits in the coefficient
