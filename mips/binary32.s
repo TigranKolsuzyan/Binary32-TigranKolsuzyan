@@ -2,7 +2,7 @@
                             .globl binary32
                             .include "include/stack.s"
                             .include "include/syscalls.s"
-                .include "include/subroutine.s"
+                            .include "include/subroutine.s"
 
                             .macro call( %sub, %arg)
                               save_state()
@@ -20,7 +20,7 @@
                                                     ##public static int binary32(int sign, int coefficient, int expon_sign, int exponent){
                          
                     
-binary32:                       ;
+binary32:               nop                         #;
                                                     ##int encoding; // : return value
                                                     ##int encoded_sign;
                                                     ##int encoded_mantissa;
@@ -33,51 +33,51 @@ binary32:                       ;
                                                     ##final int expon_shift    ;  //   << (23)
                                                     ##final int mantissa_shift ;  //  >>> (1 + 8)  // the mantissa is left-justified
                                                     ##final int $zero          ;              
-                                                    ##bias = 127;
-                                                    ##sign_shift = 31;                                  
-                                                    ##expon_shift = 23;
-                                                    ##mantissa_shift = 9;                                
-                                                    ##$zero = 0;                            
+                        li $t0, 127                 ##bias = 127;
+                        li $t1, 31                  ##sign_shift = 31;                                  
+                        li $t2, 23                  ##expon_shift = 23;
+                        li $t3, 9                   ##mantissa_shift = 9;                                
+                        li $t4, 0                   ##$zero = 0;                            
                                                                            
                     
-                                                    #negative_sign = '-';                                                
+                        li $t5, 45                  #negative_sign = '-';                                                
                                                               
                                                                         
-                                                    #if (sign == negative_sign) 
+                        beq $a0, $t5, signNeg       #if (sign == negative_sign) 
                                                     #{
-conditionalIf:                    ;                                   
+signNeg:                nop                         #;                                   
                                                     #  encoded_sign = 1;
                                                     #}
                                                     #else
                                                     #{
-conditionalElse:                  ;                                  
+signPos:                                            #;                                  
                                                     #  encoded_sign = 0;
                                                     #}
                                                                           
                                                     #if (expon_sign == negative_sign) 
                                                     #{#
-conditionalIf:                    ;                                  
+exponPos:                                           #;                                  
                                                     #  exponent = exponent * -1;
                                                     #  encoded_exponent = exponent + bias;
                                                     #}
                                                     #else
-                                                   #{#
-conditionalElse:                  ;                                  
+                                                    #{#
+exponNeg:                                           #;                                  
                                                     #  encoded_exponent = exponent + bias;
                                                     #}
                                                                           
                                                                          
-startAgain:                     ;                                                      
+startAgain:                                         #;                                                      
                                                     #position = pos_msb(coefficient);
                                                     #position = position * -1;
                     
-mantissashift:                  ;
+mantissashift:                                      #;
                                                     #encoded_mantissa = 0;
                                                     #coefficient_shift = position + 33;
                                                     #encoded_mantissa = (coefficient << coefficient_shift);
                                 
                     
-##finalencoding:                  ;                                                      
+finalencoding:                                      #;                                                      
                                                     #encoded_sign     = encoded_sign << sign_shift;
                                                     #encoded_exponent = encoded_exponent << expon_shift;
                                                     #e#ncoded_mantissa = encoded_mantissa >>> mantissa_shift;
@@ -86,4 +86,4 @@ mantissashift:                  ;
                                                     #encoding = encoding = encoded_sign | encoded_exponent | encoded_mantissa; 
                     
                                                     #r#eturn encoding;
-                                                   #}
+                                                    #}
