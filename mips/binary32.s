@@ -37,43 +37,46 @@ binary32:               nop                         #;
                         li $t1, 31                  ##sign_shift = 31;                                  
                         li $t2, 23                  ##expon_shift = 23;
                         li $t3, 9                   ##mantissa_shift = 9;                                
-                        li $t4, 0                   ##$zero = 0;                            
+                                                    ##$zero = 0;                            
                                                                            
                     
-                        li $t5, 45                  #negative_sign = '-';                                                
+                        li $t4, 45                  #negative_sign = '-';                                                
                                                               
                                                                         
-                        beq $a0, $t5, signNeg       #if (sign == negative_sign) 
+                        beq $a0, $t4, signNeg       #if (sign == negative_sign) 
                                                     #{
-signNeg:                nop                         #;                                   
-                                                    #  encoded_sign = 1;
+signPos:                nop                         #;                                   
+                        li $t5, 0                   #  encoded_sign = 1;
                                                     #}
                                                     #else
                                                     #{
-signPos:                                            #;                                  
-                                                    #  encoded_sign = 0;
+signNeg:                nop                         #;                                  
+                        li $t5, 1                   #  encoded_sign = 0;
                                                     #}
                                                                           
+ifconditional:          nop
+                        beq $a2, $t4, exponNeg
                                                     #if (expon_sign == negative_sign) 
                                                     #{#
-exponPos:                                           #;                                  
-                                                    #  exponent = exponent * -1;
+exponPos:               nop                         #;                                  
+                        add $t6, $a3, $t0           #  exponent = exponent * -1;
                                                     #  encoded_exponent = exponent + bias;
                                                     #}
                                                     #else
                                                     #{#
-exponNeg:                                           #;                                  
-                                                    #  encoded_exponent = exponent + bias;
-                                                    #}
-                                                                          
+exponNeg:               nop                         #;                                  
+                        li $t4, -1                  #  encoded_exponent = exponent + bias;
+                        mul $a3, $a3, $t4           #}
+                        add $t6, $a3, $t0                                              
                                                                          
-startAgain:                                         #;                                                      
-                                                    #position = pos_msb(coefficient);
-                                                    #position = position * -1;
+startAgain:             nop                         #;                                                      
+                        call pos_msb $a1  
+                        move $t7, $v0               #position = pos_msb(coefficient);
+                        mul $t7, $t7, $t4           #position = position * -1;
                     
-mantissashift:                                      #;
-                                                    #encoded_mantissa = 0;
-                                                    #coefficient_shift = position + 33;
+mantissashift:          nop                         #;
+                        li $t8, 0                   #encoded_mantissa = 0;
+                        addi $t9, $t7, 33           #coefficient_shift = position + 33;
                                                     #encoded_mantissa = (coefficient << coefficient_shift);
                                 
                     
