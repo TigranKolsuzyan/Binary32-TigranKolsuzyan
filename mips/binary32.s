@@ -81,9 +81,9 @@ mantissashift:          nop                         #;
                                 
                     
 finalencoding:          nop                         #;                                                      
-                                                    #encoded_sign     = encoded_sign << sign_shift;
-                                                    #encoded_exponent = encoded_exponent << expon_shift;
-                                                    #e#ncoded_mantissa = encoded_mantissa >>> mantissa_shift;
+                        sllv $t5, $t5, $t1          #encoded_sign     = encoded_sign << sign_shift;
+                        sllv $t6, $t6, $t2          #encoded_exponent = encoded_exponent << expon_shift;
+                        srlv $t8, $t8, $t3          #e#ncoded_mantissa = encoded_mantissa >>> mantissa_shift;
                                 
                                                                           
                                                     #encoding = encoding = encoded_sign | encoded_exponent | encoded_mantissa; 
