@@ -64,13 +64,8 @@ finalencoding:                  ;
                                 encoded_mantissa = encoded_mantissa >>> mantissa_shift;
             
                                                       
-<<<<<<< HEAD
                                 encoding = encoded_sign | encoded_exponent;
                                 encoding = encoding | encoded_mantissa; 
-=======
-                                encoding = encoded_sign | encoded_exponent; 
-                                encoding = encoding | encoded_mantissa;
->>>>>>> 9cf6e5c4441ff6d045936a2242ea8f33aa9b8a98
 
                                 return encoding;
                               }

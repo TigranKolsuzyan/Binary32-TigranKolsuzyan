@@ -65,17 +65,18 @@ exponPos:               nop                         #;
                                                     #else
                                                     #{#
 exponNeg:               nop                         #;                                  
-                        li $t4, -1                  #  encoded_exponent = exponent + bias;
                         mul $a3, $a3, $t4           #}
-                        add $t6, $a3, $t0                                              
+                        add $t6, $a3, $t0           #  encoded_exponent = exponent + bias;
+                                                    #}
+                                                                      
                                                                          
 startAgain:             nop                         #;                                                      
                         call pos_msb $a1  
                         move $t7, $v0               #position = pos_msb(coefficient);
-                        mul $t7, $t7, $t4           #position = position * -1;
+                        mul $t7, $t7, -1            #position = position * -1;
                     
 mantissashift:          nop                         #;
-                        li $t8, 0                   #encoded_mantissa = 0;
+                                                    #encoded_mantissa = 0;
                         addi $t9, $t7, 33           #coefficient_shift = position + 33;
                         sllv $t8, $a1, $t9          #encoded_mantissa = (coefficient << coefficient_shift);
                                 
@@ -90,22 +91,17 @@ finalencoding:          nop                         #;
                         or $v0, $v0, $t8
                         jr $ra                      #r#eturn encoding;
                                                     #}
-pos_msb:                nop
-                        addi $sp, $sp, -8           # Adjust stack for local variables
-                        sw $ra, 4($sp)              # Save return address
-                        sw $t0, 0($sp)              # Save $t0
 
-                        move $t0, $a0               # Move input number into $t0
-                        li $v0, 0                   # Initialize counter to 0
 
-pos_msb_loop:           nop
-                        beq $t0, $zero, pos_msb_done # Exit loop if number is zero
-                        srl $t0, $t0, 1             # Logical shift right by 1
-                        addi $v0, $v0, 1            # Increment counter
-                        j pos_msb_loop              # Repeat loop
-
-pos_msb_done:           nop
-                        lw $t0, 0($sp)              # Restore $t0
-                        lw $ra, 4($sp)              # Restore return address
-                        addi $sp, $sp, 8            # Adjust stack back
-                        jr $ra                                                          
+pos_msb:
+                        li $t0, 0
+loop:
+                        bne $a0, $zero, body
+                        j done
+body:
+                        srl $a0, $a0, 1
+                        addi $t0, $t0, 1
+                        j loop
+done:
+                        move $v0, $t0
+                        jr $ra                             
