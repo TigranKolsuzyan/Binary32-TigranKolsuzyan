@@ -65,7 +65,7 @@ exponPos:               nop                         #;
                                                     #else
                                                     #{#
 exponNeg:               nop                         #;                                  
-                        mul $a3, $a3, $t4           #}
+                        mul $a3, $a3, -1           #}
                         add $t6, $a3, $t0           #  encoded_exponent = exponent + bias;
                                                     #}
                                                                       
