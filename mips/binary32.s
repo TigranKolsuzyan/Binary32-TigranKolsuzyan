@@ -47,7 +47,7 @@ binary32:               nop                         #;
                                                     #{
 signPos:                nop                         #;                                   
                         li $t5, 0                   #  encoded_sign = 1;
-                                                    #}
+                        j ifconditional             #}
                                                     #else
                                                     #{
 signNeg:                nop                         #;                                  
@@ -60,7 +60,7 @@ ifconditional:          nop
                                                     #{#
 exponPos:               nop                         #;                                  
                         add $t6, $a3, $t0           #  exponent = exponent * -1;
-                                                    #  encoded_exponent = exponent + bias;
+                        j startAgain                #  encoded_exponent = exponent + bias;
                                                     #}
                                                     #else
                                                     #{#
@@ -90,3 +90,22 @@ finalencoding:          nop                         #;
                         or $v0, $v0, $t8
                         jr $ra                      #r#eturn encoding;
                                                     #}
+pos_msb:                nop
+                        addi $sp, $sp, -8           # Adjust stack for local variables
+                        sw $ra, 4($sp)              # Save return address
+                        sw $t0, 0($sp)              # Save $t0
+
+                        move $t0, $a0               # Move input number into $t0
+                        li $v0, 0                   # Initialize counter to 0
+
+pos_msb_loop:           nop
+                        beq $t0, $zero, pos_msb_done # Exit loop if number is zero
+                        srl $t0, $t0, 1             # Logical shift right by 1
+                        addi $v0, $v0, 1            # Increment counter
+                        j pos_msb_loop              # Repeat loop
+
+pos_msb_done:           nop
+                        lw $t0, 0($sp)              # Restore $t0
+                        lw $ra, 4($sp)              # Restore return address
+                        addi $sp, $sp, 8            # Adjust stack back
+                        jr $ra                                                          
