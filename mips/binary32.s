@@ -77,10 +77,10 @@ startAgain:             nop                         #;
 mantissashift:          nop                         #;
                         li $t8, 0                   #encoded_mantissa = 0;
                         addi $t9, $t7, 33           #coefficient_shift = position + 33;
-                                                    #encoded_mantissa = (coefficient << coefficient_shift);
+                        sllv $t8, $a1, $t9          #encoded_mantissa = (coefficient << coefficient_shift);
                                 
                     
-finalencoding:                                      #;                                                      
+finalencoding:          nop                         #;                                                      
                                                     #encoded_sign     = encoded_sign << sign_shift;
                                                     #encoded_exponent = encoded_exponent << expon_shift;
                                                     #e#ncoded_mantissa = encoded_mantissa >>> mantissa_shift;
