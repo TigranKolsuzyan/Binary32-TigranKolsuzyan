@@ -86,7 +86,7 @@ finalencoding:          nop                         #;
                         srlv $t8, $t8, $t3          #e#ncoded_mantissa = encoded_mantissa >>> mantissa_shift;
                                 
                                                                           
-                                                    #encoding = encoding = encoded_sign | encoded_exponent | encoded_mantissa; 
-                    
-                                                    #r#eturn encoding;
+                        or $v0, $t5, $t6            #encoding = encoding = encoded_sign | encoded_exponent | encoded_mantissa; 
+                        or $v0, $v0, $t8
+                        jr $ra                      #r#eturn encoding;
                                                     #}
