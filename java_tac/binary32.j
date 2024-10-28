@@ -64,7 +64,8 @@ finalencoding:                  ;
                                 encoded_mantissa = encoded_mantissa >>> mantissa_shift;
             
                                                       
-                                encoding = encoding = encoded_sign | encoded_exponent | encoded_mantissa; 
+                                encoding = encoded_sign | encoded_exponent; 
+                                encoding = encoding | encoded_mantissa;
 
                                 return encoding;
                               }
